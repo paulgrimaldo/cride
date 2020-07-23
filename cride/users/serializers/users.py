@@ -34,7 +34,7 @@ class UserLoginSerializer(serializers.Serializer):
 
         if not user:
             raise serializers.ValidationError('Invalid credentials')
-        if not user.is_verified:
+        if not user.is_verified and not user.is_staff:
             raise serializers.ValidationError('User is not verified yet')
 
         self.context['user'] = user
