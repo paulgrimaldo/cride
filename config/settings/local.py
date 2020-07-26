@@ -34,5 +34,6 @@ EMAIL_PORT = 1025
 INSTALLED_APPS += ['django_extensions']  # noqa F405
 
 # Celery
+# For async task remove this variables
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True

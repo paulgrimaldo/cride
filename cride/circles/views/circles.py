@@ -1,5 +1,7 @@
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from cride.circles.models import Circle, MemberShip
 from cride.circles.serializers import CircleModelSerializer
@@ -15,6 +17,13 @@ class CircleViewSet(mixins.CreateModelMixin,
     queryset = Circle.objects.all()
     serializer_class = CircleModelSerializer
     #permission_classes = (IsAuthenticated,)
+    lookup_field = 'slug_name'
+
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('slug_name', 'name')
+    ordering_fields = ('rides_offered', 'rides_taken', 'name', 'created', 'member_limit')
+    ordering = ('-members__count', '-rides_offered', '-rides_taken')
+    filter_fields = ('verified', 'is_limited')
 
     def get_permissions(self):
         permissions = [IsAuthenticated]
